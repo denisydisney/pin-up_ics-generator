@@ -1,5 +1,6 @@
 import streamlit as st
 import datetime
+import io
 
 st.title("📅 Генератор .ics")
 
@@ -18,12 +19,13 @@ alarm_minutes = st.number_input("За сколько минут напомнит
 if datetime.datetime.combine(end_date, end_time) <= datetime.datetime.combine(start_date, start_time):
     st.error("❌ Время окончания должно быть позже времени начала.")
 else:
-    # Генерация содержимого .ics файла
-    dtstamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
-    dtstart = f"{start_date.strftime('%Y%m%d')}T{start_time.strftime('%H%M')}00Z"
-    dtend = f"{end_date.strftime('%Y%m%d')}T{end_time.strftime('%H%M')}00Z"
+    # Функция для генерации содержимого .ics файла
+    def generate_ics_content():
+        dtstamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        dtstart = f"{start_date.strftime('%Y%m%d')}T{start_time.strftime('%H%M')}00Z"
+        dtend = f"{end_date.strftime('%Y%m%d')}T{end_time.strftime('%H%M')}00Z"
 
-    ics_content = f"""BEGIN:VCALENDAR
+        ics_content = f"""BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Custom Event Generator//EN
 BEGIN:VEVENT
@@ -42,11 +44,20 @@ DESCRIPTION:Напоминание: {summary} - {event_url}
 END:VALARM
 END:VEVENT
 END:VCALENDAR"""
+        return ics_content
 
     # Кнопка для скачивания .ics файла
-    st.download_button(
-        label="📥 Скачать .ics файл",
-        data=ics_content,
-        file_name="event.ics",
-        mime="text/calendar"
-    )
+    if st.button("Создать и скачать .ics файл"):
+        ics_content = generate_ics_content()
+        # Создание буфера в памяти и запись содержимого .ics
+        buf = io.BytesIO()
+        buf.write(ics_content.encode())
+        buf.seek(0)
+
+        # Предоставление кнопки для скачивания файла
+        st.download_button(
+            label="📥 Скачать event.ics",
+            data=buf,
+            file_name="event.ics",
+            mime="text/calendar"
+        )
