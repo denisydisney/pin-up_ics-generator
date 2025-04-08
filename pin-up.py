@@ -61,6 +61,7 @@ END:VEVENT
 END:VCALENDAR"""
         return ics_content
 
+
     if st.button("Create and download .ics file"):
         ics_content = generate_ics_content()
         buf = io.BytesIO()
