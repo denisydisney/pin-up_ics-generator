@@ -8,7 +8,7 @@ tz_utc_plus_3 = pytz.timezone("Etc/GMT-3")  # внимание! в pytz "Etc/GMT
 
 st.title("📅 Generator .ics")
 
-st.markdown("🕒 **Время указывайте по UTC+3 (Киев)**")
+st.markdown("🕒 **Please indicate time according to UTC+3**")
 
 # Ввод данных пользователем
 summary = st.text_input("Event name")
