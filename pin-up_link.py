@@ -38,9 +38,11 @@ else:
 
         # Формируем ссылку
         base_url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+        details_text = f"{description}\\n\\n🔗 Подробнее: {event_url}" if event_url else description
+
         params = {
             "text": summary,
-            "details": f"{description}",
+            "details": details_text,
             "location": location,
             "dates": f"{start_str}/{end_str}"
         }
@@ -49,6 +51,5 @@ else:
 
     if st.button("🔗 Generate link"):
         link = generate_google_calendar_link()
-        st.success("✅ The link is ready!")
-        st.markdown(f"[👉 Proceed to create an event in Google Calendar]({link})")
+        st.success("✅ Link generated!")
         st.code(link, language="text")
