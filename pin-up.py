@@ -49,7 +49,7 @@ DTSTAMP:{dtstamp}
 DTSTART:{dtstart}
 DTEND:{dtend}
 SUMMARY:{summary}
-DESCRIPTION:{description}\\nСсылка: {event_url}
+DESCRIPTION:{description}
 LOCATION:{location}
 URL:{event_url}
 BEGIN:VALARM
