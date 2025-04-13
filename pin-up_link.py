@@ -36,10 +36,11 @@ else:
         start_str = start_utc.strftime("%Y%m%dT%H%M%SZ")
         end_str = end_utc.strftime("%Y%m%dT%H%M%SZ")
 
+        # Формируем описание с переносами строк
+        details_text = f"{description}\n\n🔗 Подробнее: {event_url}" if event_url else description
+
         # Формируем ссылку
         base_url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-        details_text = f"{description}\\n\\n🔗 Подробнее: {event_url}" if event_url else description
-
         params = {
             "text": summary,
             "details": details_text,
